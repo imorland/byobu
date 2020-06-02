@@ -33,11 +33,13 @@ export default class PrivateDiscussionComposer extends DiscussionComposer {
                 .createRecord('discussions')
                 .save(data)
                 .then(discussion => {
-                    app.composer.hide();
+
                     if (app.cache.discussionList) {
                         app.cache.discussionList.addDiscussion(discussion);
                     }
                     m.route(app.route.discussion(discussion));
+
+                    app.composer.hide();
                 }, this.loaded.bind(this));
         }
     }
