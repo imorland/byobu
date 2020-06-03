@@ -55,17 +55,17 @@ class SendNotificationWhenPrivateDiscussionStarted implements ShouldQueue
             ->whereNotIn('id', [$this->discussion->user_id])
             ->get();
 
-        $groupRecipientUsers = User::leftJoin('group_user', 'users.id', 'group_user.user_id')
-            ->whereIn('group_user.group_id', $this->newGroups)
-            ->whereNotIn('users.id', [$this->discussion->user_id])
-            ->get();
+        //$groupRecipientUsers = User::leftJoin('group_user', 'users.id', 'group_user.user_id')
+        //    ->whereIn('group_user.group_id', $this->newGroups)
+        //    ->whereNotIn('users.id', [$this->discussion->user_id])
+        //    ->get();
 
         if ($userRecipients) {
             $notifications->sync(new DiscussionCreatedBlueprint($this->discussion), $userRecipients->all());
         }
 
-        if ($groupRecipientUsers) {
-            $notifications->sync(new DiscussionCreatedBlueprint($this->discussion), $groupRecipientUsers->all());
-        }
+        //if ($groupRecipientUsers) {
+        //    $notifications->sync(new DiscussionCreatedBlueprint($this->discussion), $groupRecipientUsers->all());
+        //}
     }
 }
