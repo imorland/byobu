@@ -50,19 +50,19 @@ class SendNotificationWhenPostedInPrivateDiscussion implements ShouldQueue
             return $user->id === $this->actor->id;
         });
 
-        $groups = $this->post->discussion->recipientGroups->pluck('id')->toArray();
+        //$groups = $this->post->discussion->recipientGroups->pluck('id')->toArray();
 
-        $recipientGroupUsers = User::leftJoin('group_user', 'users.id', 'group_user.user_id')
-            ->whereIn('group_user.group_id', $groups)
-            ->whereNotIn('users.id', [$this->actor->id])
-            ->get();
+        //$recipientGroupUsers = User::leftJoin('group_user', 'users.id', 'group_user.user_id')
+        //    ->whereIn('group_user.group_id', $groups)
+        //    ->whereNotIn('users.id', [$this->actor->id])
+        //    ->get();
 
         if ($recipientUsers) {
             $notifications->sync(new DiscussionRepliedBlueprint($this->post, $this->actor), $recipientUsers->all());
         }
 
-        if ($recipientGroupUsers) {
-            $notifications->sync(new DiscussionRepliedBlueprint($this->post, $this->actor), $recipientGroupUsers->all());
-        }
+        //if ($recipientGroupUsers) {
+        //    $notifications->sync(new DiscussionRepliedBlueprint($this->post, $this->actor), $recipientGroupUsers->all());
+        //}
     }
 }
